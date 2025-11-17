@@ -7,7 +7,7 @@ function crearTarea($titulo) {
     $sql = "INSERT INTO tareas (titulo) VALUES (:titulo)";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([':titulo' => $titulo]);
-    return $pdo->lastInsertId('tareas_id_seq'); // opcional; en Postgres el sequence por defecto
+    return true;
 }
 
 // READ
@@ -18,24 +18,25 @@ function obtenerTareas() {
     return $stmt->fetchAll();
 }
 
-// UPDATE (marcar completada / editar título)
+// UPDATE
 function actualizarTarea($id, $titulo = null, $completada = null) {
     global $pdo;
     $sets = [];
     $params = [':id' => $id];
 
-    if (!is_null($titulo)) {
+    if ($titulo !== null) {
         $sets[] = "titulo = :titulo";
         $params[':titulo'] = $titulo;
     }
-    if (!is_null($completada)) {
+
+    if ($completada !== null) {
         $sets[] = "completada = :completada";
-        // Asegurar booleano
-        $params[':completada'] = ($completada) ? true : false;
+        $params[':completada'] = $completada ? true : false;
     }
+
     if (empty($sets)) return false;
 
-    $sql = "UPDATE tareas SET " . implode(', ', $sets) . " WHERE id = :id";
+    $sql = "UPDATE tareas SET " . implode(", ", $sets) . " WHERE id = :id";
     $stmt = $pdo->prepare($sql);
     return $stmt->execute($params);
 }
