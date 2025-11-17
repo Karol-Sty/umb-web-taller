@@ -1,5 +1,13 @@
 <?php
-require_once 'db.php';
+require_once 'db.php'; // Esto importa $pdo
+
+// READ
+function obtenerTareas() {
+    global $pdo;  // ⚠️ Necesario para usar la variable global
+    $sql = "SELECT id, titulo, completada FROM tareas ORDER BY id DESC";
+    $stmt = $pdo->query($sql);
+    return $stmt->fetchAll();
+}
 
 // CREATE
 function crearTarea($titulo) {
@@ -8,14 +16,6 @@ function crearTarea($titulo) {
     $stmt = $pdo->prepare($sql);
     $stmt->execute([':titulo' => $titulo]);
     return true;
-}
-
-// READ
-function obtenerTareas() {
-    global $pdo;
-    $sql = "SELECT id, titulo, completada FROM tareas ORDER BY id DESC";
-    $stmt = $pdo->query($sql);
-    return $stmt->fetchAll();
 }
 
 // UPDATE
@@ -49,3 +49,4 @@ function eliminarTarea($id) {
     return $stmt->execute([':id' => $id]);
 }
 ?>
+

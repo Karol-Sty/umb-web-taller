@@ -1,8 +1,8 @@
 <?php
-$host = "aws-1-us-east-1.pooler.supabase.com"; // Session Pooler (IPv4)
-$port = "5432";
+$host = "aws-1-us-east-1.pooler.supabase.com";
+$port = "5432"; // Session Pooler
 $dbname = "postgres";
-$user = "postgres.nvwzqegxnsbbgyeelhld";
+$user = "postgres";
 $password = "Taller123.456.";
 
 try {
@@ -23,5 +23,6 @@ try {
     exit();
 }
 ?>
+
 
 
